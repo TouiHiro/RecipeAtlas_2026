@@ -2,7 +2,7 @@ from django.db import models
 from map.models import Map
 # Create your models here.
 
-class Users(models.Model):
+class User(models.Model):
     user_id = models.CharField(max_length=100, verbose_name="ユーザーid", primary_key=True)
     user_name = models.CharField(max_length=100, verbose_name="ユーザー名")
     user_personality = models.CharField(null=True, max_length=100, verbose_name="ユーザーパーソナリティ")
