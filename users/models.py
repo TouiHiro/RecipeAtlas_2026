@@ -12,5 +12,5 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日時")
 
 # relationクラス
-class Relation(models.Model):
+# class Relation(models.Model): #conflict時にはこっち消す
     
