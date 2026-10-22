@@ -14,6 +14,7 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日時")
 
 # relationクラス
+
 class Relation(models.Model):
     relation_id = models.AutoField(primary_key=True,on_delete=models.CASCADE, related_name='フォローID', )
     followee_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name='フォロイ―ID' )
