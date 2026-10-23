@@ -136,3 +136,5 @@ MAILERS = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# settings.py
+AUTH_USER_MODEL = 'users.User'
