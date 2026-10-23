@@ -3,6 +3,7 @@ from django.conf import settings
 # Create your models here.
 
 from django.db import models
+# AbstractUserが便利
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from map.models import Map
@@ -24,10 +25,10 @@ class Relation(models.Model):
     followee_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followee_user", verbose_name="フォローされている人")
     follower_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="follower_user", verbose_name="フォローしている人")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日時")
-
+    # ユニーク制約
     class Meta:
         unique_together = ('followee_id', 'follower_id')
-
+    # 誰が誰をフォローしているかわかりやすいように
     def __str__(self):
         return f"{self.follower_id} -> {self.followee_id}"
 
