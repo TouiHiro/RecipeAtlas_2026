@@ -37,3 +37,6 @@ class Favorite(models.Model):
     favorite_id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_id" ,verbose_name="好いている人") 
     recipe_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="recipe_id" ,verbose_name="好かれてるレシピ") 
+
+    def __str__(self):
+        return f"{self.favorite_id}"
