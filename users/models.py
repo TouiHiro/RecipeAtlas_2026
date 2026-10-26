@@ -22,13 +22,8 @@ class User(AbstractUser):
 
 class Relation(models.Model):
     relation_id = models.AutoField(primary_key=True)
-<<<<<<< HEAD
     followee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followee_user", verbose_name="フォローされている人")
     follower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="follower_user", verbose_name="フォローしている人")
-=======
-    followee_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followee_user", verbose_name="フォローされている人")
-    follower_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="follower_user", verbose_name="フォローしている人")
->>>>>>> origin/main
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日時")
     # ユニーク制約
     class Meta:
@@ -37,7 +32,6 @@ class Relation(models.Model):
     def __str__(self):
         return f"{self.follower_id} -> {self.followee_id}"
 
-<<<<<<< HEAD
 # Favorite class
 class Favorite(models.Model):
     favorite_id = models.AutoField(primary_key=True)
@@ -46,10 +40,3 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f"{self.favorite_id}"
-=======
-# class Relation(models.Model):
-#     relation_id = models.AutoField(primary_key=True,  )
-#     followee_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name="followee_user")
-#     follower_id = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name="follower_user")
-#     created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日時")
->>>>>>> origin/main
