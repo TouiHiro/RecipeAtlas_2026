@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings  # 追加
 from map.models import Map
+from users.models import User
 
 class Recipe(models.Model):
     recipe_id = models.AutoField(primary_key=True)
