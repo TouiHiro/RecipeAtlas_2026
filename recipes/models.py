@@ -17,9 +17,10 @@ class Recipe(models.Model):
 
 class Process(models.Model):
     process_id = models.AutoField(primary_key=True)
-    process_num = models.IntegerField(max_length=2)
+    process_num = models.IntegerField()
     process_detail = models.CharField(max_length=300)
-    recipe_id = models.ForeignKey(Recipe,on_delete=models.CASCADE, related_name="process_recipe")
+    recipe = models.ForeignKey(Recipe,on_delete=models.CASCADE, related_name="process_recipe")
 
     def __str__(self):
-        return f"{self.process_id}"
+        # Process番号だけだとわかりにくいから recipe_titleも欲しい 別クラスから引っ張ってくる方法わからん
+        return f" {self.process_num} "

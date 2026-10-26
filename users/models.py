@@ -22,8 +22,8 @@ class User(AbstractUser):
 
 class Relation(models.Model):
     relation_id = models.AutoField(primary_key=True)
-    followee_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followee_user", verbose_name="フォローされている人")
-    follower_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="follower_user", verbose_name="フォローしている人")
+    followee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followee_user", verbose_name="フォローされている人")
+    follower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="follower_user", verbose_name="フォローしている人")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日時")
     # ユニーク制約
     class Meta:
@@ -35,8 +35,8 @@ class Relation(models.Model):
 # Favorite class
 class Favorite(models.Model):
     favorite_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_id" ,verbose_name="好いている人") 
-    recipe_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="recipe_id" ,verbose_name="好かれてるレシピ") 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_id" ,verbose_name="好いている人") 
+    recipe = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="recipe_id" ,verbose_name="好かれてるレシピ") 
 
     def __str__(self):
         return f"{self.favorite_id}"
