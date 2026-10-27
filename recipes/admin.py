@@ -21,5 +21,10 @@ class RecipeAdmin(admin.ModelAdmin):
 #     search_fields = ("recipe")
 
 # Register your models here.
+admin.site.register(Recipe)
+admin.site.register(Process)
+
+
+# Register your models here.
 # admin.site.register(Recipe)
 admin.site.register(Process)
