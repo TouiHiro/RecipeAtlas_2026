@@ -24,7 +24,3 @@ class RecipeAdmin(admin.ModelAdmin):
 admin.site.register(Recipe)
 admin.site.register(Process)
 
-
-# Register your models here.
-# admin.site.register(Recipe)
-admin.site.register(Process)
