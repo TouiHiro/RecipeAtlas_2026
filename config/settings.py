@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
     # 作成したアプリ
     'recipes',
     'users',
     'map',
+    # csvなどのimport
+    "import_export",
 ]
 
 MIDDLEWARE = [
