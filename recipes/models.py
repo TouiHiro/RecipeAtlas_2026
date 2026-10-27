@@ -36,6 +36,7 @@ class RecipeIngredient(models.Model):
     
     def __str__(self):
         return f"{self.recipe.recipe_title} - {self.Ingredient.name}({self.weight})"
+
 class Process(models.Model):
     process_id = models.AutoField(primary_key=True)
     process_num = models.IntegerField()
@@ -44,4 +45,4 @@ class Process(models.Model):
 
     def __str__(self):
         # Process番号だけだとわかりにくいから recipe_titleも欲しい 別クラスから引っ張ってくる方法わからん
-        return f" {self.process_num} "
+        return f"{self.process_num}"
