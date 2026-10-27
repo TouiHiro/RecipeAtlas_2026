@@ -7,6 +7,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from map.models import Map
+from recipes.models import *
 
 class User(AbstractUser):
     user_personality = models.CharField(null=True, blank=True, max_length=100, verbose_name="ユーザーパーソナリティ")
@@ -36,7 +37,19 @@ class Relation(models.Model):
 class Favorite(models.Model):
     favorite_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_id" ,verbose_name="好いている人") 
-    recipe = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="recipe_id" ,verbose_name="好かれてるレシピ") 
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="recipe_id" ,verbose_name="好かれてるレシピ") 
 
     def __str__(self):
         return f"{self.favorite_id}"
+
+class Review(models.Model):
+    review_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name="user_id",verbose_name="レビューした人")
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="recipe_id" ,verbose_name="レビューを書いたレシピ") 
+    review_title = models.CharField(max_length=30)
+    review_detail = models.CharField(max_length=300)
+    is_cooked = models.IntegerField()
+    created_at = models.DateField(auto_now_add=True, verbose_name="登録日時")
+
+    def __str__(self):
+        return f"ID : {self.review_id} , Title : {self.review_title}"
