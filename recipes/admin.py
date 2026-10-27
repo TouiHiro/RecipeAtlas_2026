@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportActionModelAdmin
-from .models import Recipe, Ingredients,RecipeIngredient
+from .models import *
 # Register your models here.
 
 
@@ -19,3 +19,7 @@ class RecipeAdmin(admin.ModelAdmin):
 # class RecipeIngredientAdmin(admin.ModelAdmin):
 #     list_display = ("recipe", "Ingredient", "weight")
 #     search_fields = ("recipe")
+
+# Register your models here.
+admin.site.register(Recipe)
+admin.site.register(Process)
