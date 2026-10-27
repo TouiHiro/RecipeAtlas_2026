@@ -15,12 +15,11 @@ class RecipeAdmin(admin.ModelAdmin):
     search_fields = ["recipe_title"]
 
 #次回動くか確認
-# @admin.resister(RecipeIngredient)
-# class RecipeIngredientAdmin(admin.ModelAdmin):
-#     list_display = ("recipe", "Ingredient", "weight")
-#     search_fields = ("recipe")
+@admin.register(RecipeIngredient)
+class RecipeIngredientAdmin(admin.ModelAdmin):
+    list_display = ("recipe", "Ingredient", "weight")
+    search_fields = ["recipe"]
 
 # Register your models here.
-admin.site.register(Recipe)
 admin.site.register(Process)
 
