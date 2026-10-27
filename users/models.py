@@ -9,6 +9,7 @@ from django.utils import timezone
 from map.models import Map
 from recipes.models import *
 
+
 class User(AbstractUser):
     user_personality = models.CharField(null=True, blank=True, max_length=100, verbose_name="ユーザーパーソナリティ")
     user_detail = models.CharField(null=True, blank=True, max_length=100, verbose_name="ユーザー詳細")
@@ -28,24 +29,24 @@ class Relation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="登録日時")
     # ユニーク制約
     class Meta:
-        unique_together = ('followee_id', 'follower_id')
+        unique_together = ('followee', 'follower')
     # 誰が誰をフォローしているかわかりやすいように
     def __str__(self):
-        return f"{self.follower_id} -> {self.followee_id}"
+        return f"{self.follower} -> {self.followee}"
 
 # Favorite class
 class Favorite(models.Model):
     favorite_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user_id" ,verbose_name="好いている人") 
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="recipe_id" ,verbose_name="好かれてるレシピ") 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="favorite_users" ,verbose_name="好いている人") 
+    recipe = models.ForeignKey('recipes.Recipe', on_delete=models.CASCADE, related_name="favorite_recipes" ,verbose_name="好かれてるレシピ") 
 
     def __str__(self):
         return f"{self.favorite_id}"
 
 class Review(models.Model):
     review_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name="user_id",verbose_name="レビューした人")
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="recipe_id" ,verbose_name="レビューを書いたレシピ") 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name="reviews_user",verbose_name="レビューした人")
+    recipe = models.ForeignKey('recipes.Recipe', on_delete=models.CASCADE, related_name="reviews_recipe" ,verbose_name="レビューを書いたレシピ") 
     review_title = models.CharField(max_length=30)
     review_detail = models.CharField(max_length=300)
     is_cooked = models.IntegerField()
