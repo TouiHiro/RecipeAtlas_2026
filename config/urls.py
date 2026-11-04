@@ -19,8 +19,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
-
 urlpatterns = [
+    path('recipes/', include('recipes.urls', namespace='recipes')),
     path('admin/', admin.site.urls),
     path("", RedirectView.as_view(url="admin/", permanent=True)),
 ]

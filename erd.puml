@@ -1,0 +1,94 @@
+@startuml
+
+entity Recipe {
+  *recipe_id: integer
+  user_id: integer
+  recipe_title: varchar
+  recipe_img: varchar
+  recipe_detail: varchar
+  region_id: integer
+  created_at: text
+  tag: varchar
+}
+entity Ingredients {
+  *id: integer
+  category: varchar
+  index_number: varchar
+  name: varchar
+  energy: real
+  protein: real
+  fat: real
+  sugar: real
+  carbs: real
+  sodium: real
+}
+entity RecipeIngredient {
+  *id: integer
+  recipe_id: integer
+  Ingredient_id: integer
+  weight: real
+}
+entity Process {
+  *process_id: integer
+  process_num: integer
+  process_detail: varchar
+  process_img: varchar
+  recipe_id: integer
+}
+entity User {
+  *id: integer
+  password: varchar
+  last_login: text
+  is_superuser: bool
+  username: varchar
+  first_name: varchar
+  last_name: varchar
+  email: varchar
+  is_staff: bool
+  is_active: bool
+  date_joined: text
+  user_personality: varchar
+  user_detail: varchar
+  user_icon: varchar
+  region_id: integer
+  created_at: text
+}
+entity Relation {
+  *relation_id: integer
+  followee_id: integer
+  follower_id: integer
+  created_at: text
+}
+entity Favorite {
+  *favorite_id: integer
+  user_id: integer
+  recipe_id: integer
+}
+entity Review {
+  *review_id: integer
+  user_id: integer
+  recipe_id: integer
+  review_title: varchar
+  review_detail: varchar
+  is_cooked: bool
+  created_at: text
+}
+entity Map {
+  *region_id: integer
+  region_name: varchar
+}
+Process }|--|| Recipe : " "
+Favorite }|--|| User : " "
+Favorite }|--|| Recipe : " "
+Recipe }|--|| User : " "
+Recipe }|--|| Map : " "
+RecipeIngredient }|--|| Recipe : " "
+RecipeIngredient }|--|| Ingredients : " "
+Relation }|--|| User : " "
+Review }|--|| User : " "
+Review }|--|| Recipe : " "
+User }|--|| Map : " "
+User }|--|{ Group : " "
+User }|--|{ Permission : " "
+
+@enduml

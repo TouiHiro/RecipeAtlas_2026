@@ -7,6 +7,7 @@ class Recipe(models.Model):
     recipe_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="recipe_user")
     recipe_title = models.CharField(max_length=30)
+    recipe_img = models.ImageField(upload_to="recipe_imgs/")
     recipe_detail = models.CharField(max_length=300)
     region = models.ForeignKey(Map, on_delete=models.CASCADE, related_name="recipe_region")
     created_at = models.DateField(auto_now_add=True)
@@ -34,13 +35,13 @@ class RecipeIngredient(models.Model):
     Ingredient = models.ForeignKey(Ingredients, on_delete=models.CASCADE, related_name="used_recipes")
     weight = models.FloatField(verbose_name="使用料(g)", default=0)
     
-    def __str__(self):
-        return f"{self.recipe.recipe_title} - {self.Ingredient.name}({self.weight})"
+    def __str__(self):return f"{self.recipe.recipe_title} - {self.Ingredient.name}({self.weight})"
 
 class Process(models.Model):
     process_id = models.AutoField(primary_key=True)
     process_num = models.IntegerField()
     process_detail = models.CharField(max_length=300)
+    process_img = models.ImageField(upload_to="process_imgs/")
     recipe = models.ForeignKey(Recipe,on_delete=models.CASCADE, related_name="process_recipe")
 
     def __str__(self):

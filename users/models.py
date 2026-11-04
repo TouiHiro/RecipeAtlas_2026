@@ -49,7 +49,7 @@ class Review(models.Model):
     recipe = models.ForeignKey('recipes.Recipe', on_delete=models.CASCADE, related_name="reviews_recipe" ,verbose_name="レビューを書いたレシピ") 
     review_title = models.CharField(max_length=30)
     review_detail = models.CharField(max_length=300)
-    is_cooked = models.IntegerField()
+    is_cooked = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True, verbose_name="登録日時")
 
     def __str__(self):

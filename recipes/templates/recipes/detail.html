@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>recipe_detail</title>
+        <meta name="description" content="">
+    </head>
+    <body>
+        <h2>
+            {{ page.recipe_title }}
+        </h2>
+        <img src="{{ page.recipe_img.url }}" width="200px">
+        <br>
+        <a href="{% url 'recipes:recipe_update' page.recipe_id %}">編集</a>
+<script>
+</script>
+        
+    </body>
+</html>
