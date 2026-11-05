@@ -1,0 +1,18 @@
+header {
+    display:flex;
+}
+
+#app_icon{
+    display: flex;
+}
+#app_icon img{
+    width: 60px;
+    height: 60px;
+}
+#user_icon{
+    margin-left: 50vw;
+}
+#user_icon img{
+    width: 60px;
+    height: 60px;
+}
