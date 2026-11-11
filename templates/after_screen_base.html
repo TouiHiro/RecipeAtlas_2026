@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <div id="arrow">
+                <a href="{{ back_url|default:'#' }}">
+                    <span class="dli-arrow-left"></span>
+                </a>
+            </div>
+            <h1 class="page_title">
+                {% block page_title %}
+                {% endblock %}
+            </h1>
+        </header>
+        {% block content %}
+        {% endblock %}
+        <footer>
+            <ul class="footer_list">
+                <li>
+                    <a href="#">
+                        <span class="icon"></span>
+                        <span class="label">MAP</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"></span>
+                        <span class="label">RANKING</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"></span>
+                        <span class="label">MYPAGE</span>
+                    </a>
+                </li>
+            </ul>
+        </footer>
+    </div>
+</body>
+
+</html>
