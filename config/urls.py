@@ -21,6 +21,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView, TemplateView
 
 urlpatterns = [
+    path('recipes/', include('recipes.urls', namespace='recipes')),
     path('admin/', admin.site.urls),
     path("", RedirectView.as_view(url="admin/", permanent=True)),
     path('recipe/', include('recipes.urls')),
