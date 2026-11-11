@@ -7,6 +7,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from map.models import Map
+from recipes.models import *
 
 
 class User(AbstractUser):
