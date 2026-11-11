@@ -1,7 +1,19 @@
-{% extends 'base.html' %}
+{% extends 'after_screen_base.html' %}
 
-{% block content %}
-<h1>
-    スマホ画面であることを意識
-</h1>
+{% with back_url="/recipe/list/" %}
+
+{% block page_title %}
+レシピを投稿
 {% endblock %}
+{% block content %}
+<main class="main_content">
+    <h1>
+        レシピ投稿画面
+    </h1>
+    <form method="POST">
+        <input type="file" value="image">
+        <input type="submit">
+    </form>
+</main>
+{% endblock %}
+{% endwith %}

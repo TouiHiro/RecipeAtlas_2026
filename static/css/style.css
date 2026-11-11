@@ -1,18 +1,152 @@
-header {
-    display:flex;
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-#app_icon{
+header {
+    width: 100vw;
     display: flex;
+    height: 9vh;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    flex-shrink: 0;
+    z-index: 1000;
+    border-bottom: 1px solid gray;
+    align-items: center;
 }
-#app_icon img{
-    width: 60px;
-    height: 60px;
+#base_header{
+        justify-content: space-between;
 }
-#user_icon{
-    margin-left: 50vw;
+
+a {
+    text-decoration: none;
 }
-#user_icon img{
-    width: 60px;
-    height: 60px;
+
+#header_gap {
+    width: 200px;
 }
+
+#app_icon {
+    margin-left: 30px;
+    display: flex;
+    height: 9vh;
+    align-items: center;
+}
+
+#app_icon h1 {
+    margin-left: 20px;
+    font-size: 50px;
+    text-align: center;
+}
+
+#app_icon img {
+    width: 110px;
+    height: 110px;
+}
+
+#user_icon {
+    align-items: center;
+    display: flex;
+
+    right: 100%;
+}
+
+#user_icon img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin-right: 50px;
+
+}
+
+.main_content {
+    flex: 1;
+    padding-top: calc(9vh + 20px);
+    /* ヘッダーの高さ + 余裕の余白 */
+    padding-bottom: calc(9vh + 20px);
+    /* background-color: black; */
+}
+
+/* 以下footer */
+footer {
+    width: 100vw;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    height: 9vh;
+    z-index: 1000;
+    border-top: 1px solid gray;
+}
+
+.footer_list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.footer_list li {
+    flex: 1;
+    text-align: center;
+    font-size: 50px;
+    height: 100%;
+}
+
+.footer_list a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+
+/* ここから投稿画面 */
+.dli-arrow-left {
+    display: inline-block;
+    vertical-align: middle;
+    color: #333;
+    line-height: 1;
+    position: relative;
+    width: 3em;
+    height: 0.1em;
+    background: currentColor;
+    top: 43%;
+
+}
+
+.dli-arrow-left::before {
+    content: '';
+    width: 2.4em;
+    height: 2.6em;
+    border: 0.1em solid currentColor;
+    border-right: 0;
+    border-bottom: 0;
+    transform: rotate(-45deg);
+    transform-origin: top left;
+    position: absolute;
+    top: 50%;
+    left: -0.05em;
+    box-sizing: border-box;
+}
+
+.page_title {
+    left: 45%;
+    transform: translateX(-50%);
+    align-items: center;
+    position: absolute;
+}
+
+#arrow{
+    margin-left: 40px;
+}
+/* ここまで投稿画面 */

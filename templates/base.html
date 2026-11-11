@@ -1,27 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
 <html lang="ja">
 
 <head>
     <meta charset="UTF-8">
     <title></title>
     <meta name="description" content="">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<!DOCTYPE html>
 
 <body>
-    <header>
-        <div id="app_icon">
-            <img src="../static/images/text_kakko_kari_frame.png" alt="仮画像">
-            <h1>
-                RecipeAtlas
-            </h1>
-        </div>
-        <div id="user_icon">
-            <img src="../static/images/text_kakko_kari_frame.png" alt="user_icon">
-        </div>
-    </header>
-    {% block content %}
-    {% endblock %}
+    <div class="wrapper">
+        <header id="base_header">
+            <div id="app_icon">
+                <img src="../static/images/RecipeAtlas_icon.png" alt="仮画像">
+                <h1>
+                    RecipeAtlas
+                </h1>
+            </div>
+            <div id="header_gap"></div>
+            <div id="user_icon">
+                <img src="../static/images/AdobeStock_211418984.jpeg" alt="user_icon">
+            </div>
+        </header>
+        {% block content %}
+        {% endblock %}
+        <footer>
+            <ul class="footer_list">
+                <li>
+                    <a href="#">
+                        <span class="icon"></span>
+                        <span class="label">MAP</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"></span>
+                        <span class="label">RANKING</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"></span>
+                        <span class="label">MYPAGE</span>
+                    </a>
+                </li>
+            </ul>
+        </footer>
+    </div>
 </body>
 
 </html>
