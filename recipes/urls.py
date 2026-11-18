@@ -1,9 +1,11 @@
 from django.urls import path
 from . import views
 
-app_name = 'recipes'
+app_name = 'recipe'
 
 urlpatterns = [
+    
     # 共通部分の呼出し
-    path("", views.my_view, name='after_screen_base.html')
+    path("insert", views.recipe_form, name='recipe_insert'),
+    path("search_ingredients/",views.search_ingredients,name="search_ingredients")
 ]
