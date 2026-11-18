@@ -24,7 +24,6 @@ urlpatterns = [
     path('recipes/', include('recipes.urls', namespace='recipes')),
     path('admin/', admin.site.urls),
     path("", RedirectView.as_view(url="admin/", permanent=True)),
-    path('recipe/', include('recipes.urls')),
 ]
 #メディアフィアル　配信設定
 if settings.DEBUG:
