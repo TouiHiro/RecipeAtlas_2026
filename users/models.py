@@ -21,7 +21,6 @@ class User(AbstractUser):
         return self.username
 
 # relationクラス
-
 class Relation(models.Model):
     relation_id = models.AutoField(primary_key=True)
     followee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="followee_user", verbose_name="フォローされている人")
