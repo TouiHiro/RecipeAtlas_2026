@@ -1,0 +1,88 @@
+{% extends 'after_screen_base.html' %}
+{% with back_url="/recipe/list/" %}
+{% block css %}
+<link rel="stylesheet" href="../../static/recipes/css/style.css">
+
+{% endblock %}
+{% block page_title %}
+レシピを投稿
+{% endblock %}
+
+{% block content %}
+<main class="main_content">
+    <form method="POST" id="recipe_form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div id="insert_thumbnail">
+            <div id="empty_icon">
+                <img src="../../static/images/snack.png">
+            </div>
+            <p>
+                写真を追加してください
+            </p>
+            <div class="file_upload">
+                <label for="{{ form.recipe_img.id_for_label }}" class="custom_button">＋写真を選ぶ</label>
+                {{ form.recipe_img }}
+                <!-- <input type="file" id="file_input" name="recipe_img"> -->
+            </div>
+        </div>
+        <div class="content_blocks">
+            <h1>料理名</h1>
+            {{ form.recipe_title }}
+            <!-- <input type="text" name="recipe_title" required> -->
+        </div>
+        <div class="content_blocks" id="recipe_detail">
+            <h1>説明</h1>
+            {{ form.recipe_detail }}
+            <!-- <textarea id="detail" name="recipe_detail"></textarea> -->
+        </div>
+        <h1>材料</h1>
+        <div class="form_group">
+            <div id="material_head" class="ingredient_grid">
+                <p>材料名</p>
+                <p>分量</p>
+            </div>
+            <div id="ingredient_container">
+                <div class="ingredient_row ingredient_grid">
+                    <input type="hidden" name="ingredient_id[]" class="ingredient_id">
+                    <div class="search_wrapper">
+                        <input type="text" name="ingredient_name[]" class="ingredient_search_input" placeholder="材料名を入力（例：じゃがいも）"
+                            autocomplete="off">
+                        <div class="suggestions_box"></div>
+                    </div>
+                    <input type="number" step="0.1" name="weight[]" placeholder="使用量(g)">
+                    <button type="button" class="remove_row_btn">削除</button>
+                </div>
+            </div>
+            <button type="button" id="add_ingredient_btn" id="ingredient_add_button"></button>
+        </div>
+
+        <h1>手順</h1>
+        <div id="process_container">
+            <div class="process_row" >
+                <p>
+                    <span class="process_num_label">1</span>
+                </p>
+                <input type="hidden" name="process_num[]" value="1" class="process_num_input">
+                <p>
+                    詳細<br>
+                    <textarea name="process_detail[]" placeholder="手順の説明を入力" rows="3" required></textarea>
+                </p>
+                <p>
+                    画像：<input type="file" name="process_img[]">
+                </p>
+                <button type="button" class="remove_process_btn">削除</button>
+            </div>
+        </div>
+        <button type="button" id="add_process_btn" class="add_button">手順を追加</button>
+    </form>
+</main>
+{% endblock %}
+{% block footer %}
+<div class="footer_submit_area">
+    <input type="submit" form="recipe_form" value="投稿" class="submit_button">
+</div>
+<script src="../../static/recipes/js/process.js"></script>
+<script src="../../static/recipes/js/ingredient_search.js"></script>
+<script src="../../static/recipes/js/ingredient_add.js"></script>
+{% endblock %}
+{% endwith %}

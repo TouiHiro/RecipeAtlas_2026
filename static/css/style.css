@@ -5,7 +5,7 @@
 }
 
 header {
-    width: 100vw;
+    width: 100%;
     display: flex;
     height: 9vh;
     background-color: white;
@@ -16,8 +16,9 @@ header {
     border-bottom: 1px solid gray;
     align-items: center;
 }
-#base_header{
-        justify-content: space-between;
+
+#base_header {
+    justify-content: space-between;
 }
 
 a {
@@ -65,10 +66,9 @@ a {
 
 .main_content {
     flex: 1;
-    padding-top: calc(9vh + 20px);
-    /* ヘッダーの高さ + 余裕の余白 */
+    padding-top: 8.8vh;
     padding-bottom: calc(9vh + 20px);
-    /* background-color: black; */
+    background-color: rgb(243, 244, 246);
 }
 
 /* 以下footer */
@@ -109,44 +109,3 @@ footer {
     width: 100%;
     text-decoration: none;
 }
-
-/* ここから投稿画面 */
-.dli-arrow-left {
-    display: inline-block;
-    vertical-align: middle;
-    color: #333;
-    line-height: 1;
-    position: relative;
-    width: 3em;
-    height: 0.1em;
-    background: currentColor;
-    top: 43%;
-
-}
-
-.dli-arrow-left::before {
-    content: '';
-    width: 2.4em;
-    height: 2.6em;
-    border: 0.1em solid currentColor;
-    border-right: 0;
-    border-bottom: 0;
-    transform: rotate(-45deg);
-    transform-origin: top left;
-    position: absolute;
-    top: 50%;
-    left: -0.05em;
-    box-sizing: border-box;
-}
-
-.page_title {
-    left: 45%;
-    transform: translateX(-50%);
-    align-items: center;
-    position: absolute;
-}
-
-#arrow{
-    margin-left: 40px;
-}
-/* ここまで投稿画面 */
