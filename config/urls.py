@@ -23,9 +23,9 @@ from django.views.generic import RedirectView, TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", RedirectView.as_view(url="admin/", permanent=True)),
-    path('map/', include('map.urls', )),
-    path('users/', include('users.urls', )),
-    path('recipes/', include('recipes.urls', )),
+    path('map/', include('map.urls')),
+    path('users/', include('users.urls')),
+    path('recipes/', include('recipes.urls')),
 ]
 #メディアフィアル　配信設定
 if settings.DEBUG:
