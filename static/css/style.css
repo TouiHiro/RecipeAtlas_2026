@@ -1,3 +1,12 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin:0;
+    padding:0;
+    overflow-x: hidden;
+}
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -6,6 +15,7 @@
 
 header {
     width: 100%;
+    left: 0;
     display: flex;
     height: 9vh;
     background-color: white;
@@ -73,7 +83,8 @@ a {
 
 /* 以下footer */
 footer {
-    width: 100vw;
+    width: 100%;
+    left: 0;
     background-color: white;
     position: fixed;
     bottom: 0;

@@ -44,6 +44,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 
 }
 
@@ -52,7 +53,40 @@
     font-size: 30px;
     color: rgb(167, 167, 167);
 }
+.img_centering{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#thumbnail_area{
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    inset: 0;
+    overflow: hidden;
 
+}
+#thumbnail_img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    object-fit: cover;
+}
+
+.process_img_input{
+    overflow: hidden;
+}
+.process_img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    object-fit: cover;
+}
+#change_file_btn{
+    position: absolute;
+}
 #empty_icon {
     width: 180px;
     height: 180px;
@@ -79,13 +113,14 @@
 
 .ingredient_grid {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 3fr 1fr auto;
     gap: 12px;
     align-items: center;
 }
 
 .content_blocks {
     margin: 20px 0 20px 0;
+    padding: 20px 50px;
     background-color: #ffffff;
 }
 
@@ -107,7 +142,7 @@
 .content_blocks input,textarea{
     font-size: 30px;
     padding: 10px;
-    margin-left: 50px;
+    
 }
 .content_blocks input{
     padding: 8px 10px;
@@ -118,21 +153,27 @@
     height: 70px;
     margin-bottom: 30px;
 }
-#recipe_detail textarea {
+#recipe_detail textarea ,
+.process_row textarea{
     resize: none;
-    border-radius: 30px;
-    width: 90%;
+    width: 100%;
     height: 70%;
+}
+#recipe_detail textarea{
+    border-radius: 30px;
+
 }
 
 .submit_button {
-    margin-top: 40px;
+    display: block;
+    margin: 40px auto 0;
     color: #ffffff;
     background-color: rgb(23, 107, 58);
-    padding: 20px 200px;
-    width: 90vw;
+    padding: 20px 0;
+    width: 90%;
     border-radius: 9999px;
     font-size: 45px;
+    border:none;
 }
 
 #material_head {
@@ -144,8 +185,22 @@
 #material_head{
     font-size: 25px;
 }
+#material_head p{
+    margin: 0;
+}
+.search_wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search_wrapper input {
+    width: 100%;
+    margin-left: 0; 
+    margin-bottom: 0;
+}
 .ingredient_row {
     margin-bottom: 10px;
+    display: grid;
 }
 
 .ingredient_row input {
@@ -157,7 +212,40 @@
     font-size: 30px;
     height: 70px;
 }
-
+.ingredient_row input[type="number"] {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 0;
+}
 .ingredient_container {
     position: relative;
+}
+/* .ingredient_search_input input{
+    width: 60%;
+} */
+.process_row textarea{
+    resize: none;
+}
+
+.process_img_area{
+    width: 80%;
+    height:500px;
+    background-color: aquamarine;
+    overflow: hidden;
+}
+.process_img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none; /* 500px制限を解除 */
+    object-fit: cover; /* 比率を保ったまま枠いっぱいに表示 */
+    object-position: center;
+}
+.suggestions_box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background-color: #ffffff;
 }

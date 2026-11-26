@@ -1,32 +1,46 @@
 document.addEventListener('DOMContentLoaded', function(){
+    const form = document.querySelector('form');
+    const warningBox = document.getElementById('ingredient-warning');
+
+    function showWarning(message) {
+        if (warningBox) {
+            warningBox.textContent = message;
+            warningBox.style.display = 'block';
+            warningBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            alert(message);
+        }
+    }
+
+    function clearWarning() {
+        if (warningBox) {
+            warningBox.textContent = '';
+            warningBox.style.display = 'none';
+        }
+    }
+
     document.addEventListener('input', function(e){
         if(e.target.classList.contains('ingredient_search_input')){
             const input = e.target;
             const query = input.value.trim();
-            // closestメソッドは呼び出した要素自身、またはその祖先要素の中から
-            // 指定したCSSセレクタに一致する最も近い要素を検索して返す
             const row = input.closest('.ingredient_row');
             const suggestionBox = row.querySelector('.suggestions_box');
             const hiddenIdInput = row.querySelector('.ingredient_id');
 
             hiddenIdInput.value = '';
+            clearWarning();
 
             if(query === ''){
                 suggestionBox.innerHTML = '';
                 suggestionBox.style.display = 'none';
                 return;
             }
-            // viewsのsearch_ingredientsにgetリクエストを送信
-            // .thenは非同期処理が成功したときにその結果を受け取って
-            // 次の処理を事項するためのPromiseインスタンスのメソッド
-            fetch(`/recipe/search_ingredients/?q=${encodeURIComponent(query)}`)
-                // サーバからからのresponseをjsonオブジェクトに変換する
+
+            fetch(`/recipes/search_ingredients/?q=${encodeURIComponent(query)}`)
                 .then(response => response.json())
-                // 変換されたデータを受け取り画面を更新する処理
                 .then(data => {
-                    // 前回の検索結果が残らないようにクリア
                     suggestionBox.innerHTML = '';
-                    if( data.results && data.results.length > 0){
+                    if(data.results && data.results.length > 0){
                         suggestionBox.style.display = 'block';
                         data.results.forEach(item => {
                             const div = document.createElement('div');
@@ -37,11 +51,13 @@ document.addEventListener('DOMContentLoaded', function(){
                             div.addEventListener('mouseenter', () => div.style.backgroundColor = '#f0f0f0');
                             div.addEventListener('mouseleave', () => div.style.backgroundColor = '#fff');
 
-                            div.addEventListener('click', function(){
+                            div.addEventListener('mousedown', function(ev){
+                                ev.preventDefault();
                                 input.value = item.name;
                                 hiddenIdInput.value = item.id;
                                 suggestionBox.innerHTML = '';
                                 suggestionBox.style.display = 'none';
+                                clearWarning();
                             });
 
                             suggestionBox.appendChild(div);
@@ -53,6 +69,36 @@ document.addEventListener('DOMContentLoaded', function(){
                 .catch(error => console.error('Error:', error));
         }
     });
+
+    if(form){
+        form.addEventListener('submit', function(e){
+            const rows = document.querySelectorAll('.ingredient_row');
+            for(const row of rows){
+                const nameInput = row.querySelector('.ingredient_search_input');
+                const idInput = row.querySelector('.ingredient_id');
+                const weightInput = row.querySelector('input[name="weight[]"]');
+
+                const nameVal = nameInput ? nameInput.value.trim() : '';
+                const idVal = idInput ? idInput.value.trim() : '';
+                const weightVal = weightInput ? weightInput.value.trim() : '';
+
+                if(nameVal && !idVal){
+                    e.preventDefault();
+                    showWarning(`「${nameVal}」は登録されていない食材です。候補から選択してください。`);
+                    nameInput.focus();
+                    return;
+                }
+
+                if(weightVal && !idVal){
+                    e.preventDefault();
+                    showWarning('食材を候補から選択してください。');
+                    nameInput.focus();
+                    return;
+                }
+            }
+            clearWarning();
+        });
+    }
 
     document.addEventListener('click', function(e){
         if(!e.target.closest('.search_wrapper')){

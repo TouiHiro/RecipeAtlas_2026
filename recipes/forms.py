@@ -17,6 +17,7 @@ class RecipeForm(forms.ModelForm):
             'tag'
         ]
 
+        # id: name: でタグの属性を設定
         widgets = {
             'tag': forms.CheckboxSelectMultiple(),
             'recipe_title' : forms.TextInput(attrs={
@@ -43,6 +44,12 @@ class ProcessForm(forms.ModelForm):
             'process_detail',
             'process_img'
         ]
+        widgets = {
+            'process_img' : forms.FileInput(attrs={
+                'class' : 'process_img_input',
+                'accept' : 'image/*'
+            })
+        }
 
 
 RecipeProcessFormSet = inlineformset_factory(
