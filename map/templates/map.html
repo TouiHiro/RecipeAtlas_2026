@@ -1,13 +1,699 @@
-<!DOCTYPE html>
-<html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        <meta name="description" content="">
-    </head>
-    <body>
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* 地図表示領域 */
+.map_container {
+    position: fixed;
+    top: 9vh;
+    bottom: 9vh;
+    left: 0;
+    right: 0;
+    background: #e9ece9;
+    overflow: hidden;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+/* ヘッダー */
+#app_icon {
+    margin-left: 15px;
+}
+
+#app_icon h1 {
+    font-size: 18px;
+    margin-left: 8px;
+    color: #17643e;
+}
+
+#app_icon img {
+    width: 34px;
+    height: 34px;
+}
+
+#header_gap {
+    width: auto;
+    flex: 1;
+}
+
+#user_icon img {
+    width: 36px;
+    height: 36px;
+    margin-right: 15px;
+}
+
+.footer_list li {
+    font-size: 12px;
+}
+
+/* 地域別レシピ一覧パネル */
+.map_container .region_recipes {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 64%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background: #ffffff;
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.12);
+    overflow: hidden;
+    z-index: 1000;
+    color: #222222;
+    font-size: 16px;
+}
+
+/* パネル上部のバー */
+.sheet-handle {
+    width: 38px;
+    height: 4px;
+    background: #d1d5db;
+    border-radius: 10px;
+    margin: 10px auto;
+    flex-shrink: 0;
+}
+
+.sheet-header {
+    padding: 0 15px 12px;
+}
+
+.region-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.region-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    color: #222222;
+}
+
+/* 閉じるボタン */
+.close-button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f1f2f3;
+    color: #666666;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.recipe-count {
+    font-size: 12px;
+    color: #888888;
+    margin: 5px 0 10px;
+}
+
+/* 新着順 */
+.sort-menu {
+    display: flex;
+    gap: 8px;
+}
+
+.sort-active {
+    background: #17643e;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+}
+
+/* レシピ一覧 */
+.recipe-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.recipe-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 15px;
+    border-top: 1px solid #eeeeee;
+}
+
+/* レシピ画像 */
+.recipe-image,
+.recipe-no-image {
+    width: 74px;
+    height: 74px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.recipe-no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef2ee;
+    color: #888888;
+    font-size: 11px;
+}
+
+/* レシピ情報 */
+.recipe-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.recipe-info h4 {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 4px;
+    overflow-wrap: anywhere;
+}
+
+.recipe-user {
+    font-size: 12px;
+    color: #888888;
+    margin: 3px 0;
+}
+
+.recipe-detail {
+    font-size: 12px;
+    color: #666666;
+    margin: 4px 0;
+    overflow-wrap: anywhere;
+}
+
+.recipe-region,
+.recipe-tag {
+    display: inline-block;
+    background: #e5f2e9;
+    color: #17643e;
+    border-radius: 5px;
+    padding: 2px 7px;
+    font-size: 11px;
+    margin: 2px 0;
+}
+
+.recipe-date {
+    font-size: 10px;
+    color: #999999;
+    margin-top: 4px;
+}
+
+.empty-message {
+    text-align: center;
+    color: #888888;
+    padding: 20px;
+    font-size: 13px;
+}
+#map .leaflet-bottom.leaflet-right {
+    bottom: auto;
+    top: 0;
+}
+
+.coordinate-box {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    font-size: 12px;
+    color: #17643e;
+    font-weight: bold;
+    line-height: 1.6;
+}
+/* エリア検索欄 */
+.area-search {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
+    max-width: 420px;
+    display: flex;
+    background: white;
+    border-radius: 25px;
+    padding: 5px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    z-index: 1100;
+}
+
+.area-search input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.area-search button {
+    background: #17643e;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.area-search-message {
+    position: absolute;
+    top: 65px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    z-index: 1100;
+}
+</style>
+
+{% endblock css %}
+
+
+{% block content %}
+
+<div class="map_container">
+
+    <!-- 地図担当者の表示領域 -->
+    <div id="map"></div>
+
+    <form method="GET" class="area-search" id="areaSearch">
+
+    <input
+        type="search"
+        id="areaKeyword"
+        name="keyword"
+        placeholder="全国のエリアを検索"
+        autocomplete="off"
+        required
+    >
+
+    <button type="submit">検索</button>
+
+</form>
+
+    {% if keyword and not selected_region %}
+        <div class="area-search-message">
+            該当するエリアが見つかりません
+        </div>
+    {% endif %}
+
+    {% if selected_region %}
+
+    <!-- 地域別レシピ一覧 -->
+    <section class="region_recipes">
+
+        <div class="sheet-handle"></div>
+
+        <div class="sheet-header">
+
+            <div class="region-heading">
+
+                <h2 class="region-title">
+    📍 {{ selected_region.region_name }}エリア
+                </h2>
+
+                <a href="{{ request.path }}"
+                   class="close-button"
+                   aria-label="一覧を閉じる">
+                    ×
+                </a>
+
+            </div>
+
+            <p class="recipe-count">
+    {{ recipe_count }}件のレシピが見つかりました
+</p>
+
+            <div class="sort-menu">
+                <span class="sort-active">新着順</span>
+            </div>
+
+        </div>
+
+        <div class="recipe-list">
+
+            {% for recipe in recipes %}
+
+            <div class="recipe-card">
+
+                {% if recipe.recipe_img %}
+
+                    <img class="recipe-image"
+                         src="{{ recipe.recipe_img.url }}"
+                         alt="{{ recipe.recipe_title }}">
+
+                {% else %}
+
+                    <div class="recipe-no-image">
+                        画像なし
+                    </div>
+
+                {% endif %}
+
+                <div class="recipe-info">
+
+                    <h4>{{ recipe.recipe_title }}</h4>
+
+                    <p class="recipe-user">
+                        by {{ recipe.user }}
+                    </p>
+
+                    <p class="recipe-detail">
+                        {{ recipe.recipe_detail|truncatechars:40 }}
+                    </p>
+
+                    <span class="recipe-region">
+                        {{ recipe.region.region_name }}
+                    </span>
+
+                    {% for tag in recipe.tag.all %}
+
+                        <span class="recipe-tag">
+                            {{ tag.name }}
+                        </span>
+
+                    {% endfor %}
+
+                    <p class="recipe-date">
+                        {{ recipe.created_at|date:"Y/m/d" }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+                <p class="empty-message">
+                    この地域にはまだレシピがありません。
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+        {% endif %}
+
+</div>
+
 <script>
+
+// 地図の初期設定
+const recipeMap = L.map("map").setView(
+    [36.5, 138.0], 5
+);
+
+// 背景地図を表示
+L.tileLayer(
+    "https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png",
+    {
+        attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a> | GEBCO Digital Atlas (2003)',
+        minZoom: 4,
+        maxZoom: 18
+    }
+).addTo(recipeMap);
+
+
+
+// 全国行政区域データの保存場所
+const geojsonBase = "{% static 'map/geojson/' %}";
+
+// 全国の地域を管理
+const japanLayer = L.geoJSON(null).addTo(recipeMap);
+
+const regionLayers = new Map();
+
+let selectedLayer = null;
+
+
+// 地域の表示スタイル
+function regionStyle() {
+    return {
+        color: "#17643e",
+        weight: 1,
+        fillColor: "#28a745",
+        fillOpacity: 0.1
+    };
+}
+
+
+// 地域を選択する共通関数
+function selectRegion(layer) {
+
+    if (selectedLayer) {
+        selectedLayer.setStyle(regionStyle());
+    }
+
+    selectedLayer = layer;
+
+    const region = layer.feature.properties;
+
+    layer.setStyle({
+        color: "#17643e",
+        weight: 3,
+        fillColor: "#28a745",
+        fillOpacity: 0.5
+    });
+
+    recipeMap.flyToBounds(
+        layer.getBounds(),
+        {
+            padding: [30, 70],
+            maxZoom: 13,
+            duration: 1.5
+        }
+    );
+
+    document.getElementById("areaKeyword").value =
+        region.prefecture + region.name;
+
+    layer.openTooltip();
+
+    console.log("地域名:", region.name);
+    console.log("行政区域コード:", region.code);
+}
+
+
+// 地域ごとの共通処理
+function onEachRegion(feature, layer) {
+
+    const region = feature.properties;
+
+    regionLayers.set(region.code, layer);
+
+    layer.bindTooltip(
+        region.prefecture + region.name
+    );
+
+    layer.on("click", function (e) {
+
+        L.DomEvent.stopPropagation(e);
+
+        selectRegion(layer);
+
+    });
+
+    layer.on("mouseover", function () {
+
+        if (layer !== selectedLayer) {
+            layer.setStyle({
+                fillOpacity: 0.4
+            });
+        }
+
+    });
+
+    layer.on("mouseout", function () {
+
+        if (layer !== selectedLayer) {
+            layer.setStyle(regionStyle());
+        }
+
+    });
+
+}
+
+
+// 全国47都道府県のGeoJSONを読み込む
+async function loadJapanMap() {
+
+    for (let i = 1; i <= 47; i++) {
+
+        const code = String(i).padStart(2, "0");
+
+        const response = await fetch(
+            geojsonBase + code + ".geojson"
+        );
+
+        if (!response.ok) {
+            throw new Error(code + ".geojson");
+        }
+
+        const data = await response.json();
+
+        L.geoJSON(data, {
+            style: regionStyle,
+            onEachFeature: onEachRegion
+        }).addTo(japanLayer);
+
+    }
+
+    console.log("全国行政区域の読み込み完了");
+
+}
+
+
+// 全国検索用データを取得
+async function loadRegions() {
+
+    const response = await fetch(
+        geojsonBase + "regions.json"
+    );
+
+    if (!response.ok) {
+        throw new Error("regions.json");
+    }
+
+    return response.json();
+
+}
+
+
+// 全国データの読み込み
+const japanReady = Promise.all([
+    loadJapanMap(),
+    loadRegions()
+]);
+
+japanReady.catch(console.error);
+
+
+// 全国の地域を検索
+async function searchJapan(keyword) {
+
+    const [, regions] = await japanReady;
+
+    keyword = keyword.trim().replace(/\s+/g, "");
+
+    const matches = regions.filter(region =>
+
+        region.name === keyword ||
+
+        region.prefecture + region.name === keyword ||
+
+        region.prefecture + region.county +
+        region.name === keyword
+
+    );
+
+    if (matches.length === 0) {
+        alert("地域が見つかりません");
+        return;
+    }
+
+    if (matches.length > 1) {
+        alert("都道府県名や郡名も入力してください");
+        return;
+    }
+
+    const layer = regionLayers.get(matches[0].code);
+
+    if (layer) {
+        selectRegion(layer);
+    }
+
+}
+
+
+// 検索ボタンの処理
+document.getElementById("areaSearch")
+.addEventListener("submit", async function (e) {
+
+    e.preventDefault();
+
+    const keyword = document.getElementById(
+        "areaKeyword"
+    ).value;
+
+    try {
+        await searchJapan(keyword);
+    } catch (error) {
+        console.error(error);
+        alert("地図データの読み込みに失敗しました");
+    }
+
+});
+
+
+// 座標表示欄を作成
+const coordinateControl = L.control({
+    position: "topright"
+});
+
+coordinateControl.onAdd = function () {
+
+    const div = L.DomUtil.create(
+        "div", "coordinate-box"
+    );
+
+    div.id = "coordinates";
+    div.innerHTML = "緯度：--<br>経度：--";
+
+    return div;
+};
+
+coordinateControl.addTo(recipeMap);
+
+
+// マウスの座標をリアルタイム表示
+recipeMap.on("mousemove", function (e) {
+
+    const lat = e.latlng.lat.toFixed(6);
+    const lng = e.latlng.lng.toFixed(6);
+
+    document.getElementById("coordinates").innerHTML =
+        "緯度：" + lat + "<br>" +
+        "経度：" + lng;
+
+});
+
+recipeMap.on("click", function (e) {
+    const lat = e.latlng.lat.toFixed(6);
+    const lng = e.latlng.lng.toFixed(6);
+
+    L.popup()
+        .setLatLng(e.latlng)
+        .setContent(
+            "経緯" + lat + "<br>" +
+            "経度" + lng
+        )
+        .openOn(recipeMap);
+})
 </script>
-        
-    </body>
-</html>
+
+
+{% endblock content %}
+
+
