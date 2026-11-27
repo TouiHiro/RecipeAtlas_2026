@@ -40,16 +40,15 @@ class RecipeIngredient(models.Model):
     recipe= models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="recipe_ingredients")
     Ingredient = models.ForeignKey(Ingredients, on_delete=models.CASCADE, related_name="used_recipes")
     weight = models.FloatField(verbose_name="使用料(g)", default=0)
-    
+    # dbに存在しない食材をはじきたい
     def __str__(self):return f"{self.recipe.recipe_title} - {self.Ingredient.name}({self.weight})"
 
 class Process(models.Model):
     process_id = models.AutoField(primary_key=True)
     process_num = models.IntegerField()
     process_detail = models.CharField(max_length=300)
-    process_img = models.ImageField(upload_to="process_imgs/")
+    process_img = models.ImageField(upload_to="process_imgs/", blank=True, null=True)
     recipe = models.ForeignKey(Recipe,on_delete=models.CASCADE, related_name="process_recipe")
 
     def __str__(self):
-        # Process番号だけだとわかりにくいから recipe_titleも欲しい 別クラスから引っ張ってくる方法わからん
         return f"{self.process_num}"

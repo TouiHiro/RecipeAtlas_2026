@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="description" content="">
+    {% load static %}
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+    <link href="{%static 'css/authn_page.css'%}" rel="stylesheet">
+  </head>
+    
+<body>
+  <h1 class="title">{{ page_title }}</h1>
+    <form action="#" method="post" name="go_to_success">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <p><input type="submit" value="{{ submit_button_text }}" name="authn_page_form"></p>
+    </form>
+  <p><a href="{% url  navigated_page_name  %}">{{ navigated_link_text }}</a></p>
+</body>
+
+</html>
