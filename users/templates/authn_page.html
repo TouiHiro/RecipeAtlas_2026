@@ -13,10 +13,18 @@
   <h1 class="title">{{ page_title }}</h1>
     <form action="#" method="post" name="go_to_success">
       {% csrf_token %}
-      {{ form.as_p }}
-      <p><input type="submit" value="{{ submit_button_text }}" name="authn_page_form"></p>
+      {% for field in form %}
+      <div class="form-item">
+        <p>{{ field.label }}</p>
+        <p>{{ field }}</p>
+      </div>
+      {% endfor %}
+      <div class="form-item">
+        <p id="submit_wrapper"><input type="submit" value="{{ submit_button_text }}" name="authn_page_form"></p>
+      </div>
     </form>
-  <p><a href="{% url  navigated_page_name  %}">{{ navigated_link_text }}</a></p>
+  <p id="navigation-wrapper"><a href="{% url navigated_page_name  %}">{{ navigated_link_text }}</a></p>
+  {{ message }}
 </body>
 
 </html>
