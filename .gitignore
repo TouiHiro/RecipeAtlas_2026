@@ -7,3 +7,6 @@ __pycache__/
 
 # その他、必要に応じて（データベースファイルなど）
 db.sqlite3
+
+# geojson
+*.geojson
