@@ -1,3 +1,43 @@
+*{
+  font-size:130%;
+}
 body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.title {
+  font-size:400%;
+  text-align:center;
+  margin-top:3rem;
+  margin-bottom:3rem;
+}
+.form-item{
+  margin-top:3rem;
+}
+
+input[type=text], input[type=password]{
+  border:solid 1px black;
+}
+
+#submit_wrapper{
   text-align:center;
 }
+input[type=submit]{
+
+  text-align:center;
+
+  border-radius:4%;
+  background-color:green;
+  color:white;
+
+  margin-top:0.5rem;
+  padding: 0.5rem 1.5rem;
+  margin-bottom:0.5rem;
+
+}
+#navigation-wrapper{
+  margin-top:3rem;
+}
+/* decorate links */

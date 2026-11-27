@@ -1,7 +1,8 @@
 from django import forms
+from django.utils.safestring import mark_safe
 
 class LoginForm(forms.Form):
-  username = forms.CharField(label="ユーザー名", max_length=100)
+  username = forms.CharField(label=mark_safe('ユーザー名'), max_length=100)
   password = forms.CharField(label="パスワード", widget=forms.PasswordInput())
 
   username.widget.attrs.update({"class":"authn_form"})
@@ -10,6 +11,7 @@ class LoginForm(forms.Form):
 
 class LogonForm(LoginForm):
   confirm_password = forms.CharField(label="パスワード二回目",widget=forms.PasswordInput())
+  confirm_password.widget.attrs.update({"class":"authn_form"})
 
 
 # GeeksforGeeks
